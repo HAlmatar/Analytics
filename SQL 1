@@ -1,0 +1,5 @@
+%%sql 
+postgresql:///oldestbusinesses
+ 
+-- Select the oldest and newest founding years from the businesses table
+select min(year_founded), max(year_founded) from businesses
