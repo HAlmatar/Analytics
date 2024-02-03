@@ -3,3 +3,76 @@ postgresql:///oldestbusinesses
  
 -- Select the oldest and newest founding years from the businesses table
 select min(year_founded), max(year_founded) from businesses
+
+%%sql
+
+-- Select all columns from businesses where the founding year was before 1000
+-- Arrange the results from oldest to newest
+select * from businesses where year_founded < 1000
+order by year_founded asc
+
+%%sql
+
+-- Select all columns from businesses where the founding year was before 1000
+-- Arrange the results from oldest to newest
+select * from businesses where year_founded < 1000
+order by year_founded asc
+
+%%sql
+
+-- Select business name, founding year, and country code from businesses; and category from categories
+-- where the founding year was before 1000, arranged from oldest to newest
+select business, year_founded, country_code, category from businesses b
+join categories c on b.category_code = c.category_code
+where b.year_founded < 1000
+order by year_founded asc
+
+%%sql
+
+-- Select the category and count of category (as "n")
+-- arranged by descending count, limited to 10 most common categories
+select category, count(*) as "n" from businesses b
+join categories c on b.category_code = c.category_code
+group by category
+order by count(*) desc
+limit 10
+
+%%sql
+
+-- Select the oldest founding year (as "oldest") from businesses, 
+-- and continent from countries
+-- for each continent, ordered from oldest to newest 
+select min(year_founded) oldest, continent from businesses b
+join countries c on b.country_code = c.country_code
+group by continent
+order by min(year_founded) asc
+
+%%sql
+
+-- Select the business, founding year, category, country, and continent
+select business, year_founded, category, country,continent from businesses b
+join categories c on c.category_code = b.category_code
+join countries cn on cn.country_code = b.country_code
+
+%%sql
+
+-- Count the number of businesses in each continent and category
+select continent, category,count(business) n from businesses b
+join countries cn on cn.country_code = b.country_code
+join categories c on c.category_code = b.category_code
+group by continent, category
+
+%%sql
+
+-- Repeat that previous query, filtering for results having a count greater than 5
+select continent, category, count(business) n from businesses b
+join countries cn on cn.country_code = b.country_code
+join categories c on c.category_code = b.category_code
+group by continent, category 
+having count(business) > 5
+order by 3 desc
+
+
+
+
+
